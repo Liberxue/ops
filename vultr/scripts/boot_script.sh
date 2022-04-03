@@ -1,11 +1,10 @@
 yum install -y yum-utils
-yum-config-manager \
-    --add-repo \
-    https://download.docker.com/linux/centos/docker-ce.repo
-yum install -y docker-ce docker-ce-cli containerd.io
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum install -y docker-ce docker-ce-cli containerd.io --allowerasing
+systemctl enable docker --now
+curl -Ls "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/bin/docker-compose
+chmod +x /usr/bin/docker-compose
 systemctl start docker
 systemctl enable docker
-docker run -d  -p 8989:8989/tcp --name go-ss --restart=always -e SERVER_PORT=8989 -e METHOD=AEAD_CHACHA20_POLY1305 -e PASSWORD=xjESqrUKLa8BgPE7yH teddysun/go-shadowsocks2
-firewall-cmd --zone=public --add-port=8989/tcp --permanent
-firewall-cmd --reload
+echo "alias ls='ls --color=auto -al'" >> /root/.bashrc
 history -c
